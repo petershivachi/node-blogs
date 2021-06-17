@@ -45,4 +45,75 @@ router.post(
   }
 );
 
+//@route    GET api/blogs
+//desc      Endpoint to get all blog posts
+//access    Public
+router.get('/', async (req, res) => {
+  try {
+    const blogs = await Blog.find().sort({date: -1});
+
+    res.json(blogs)
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+    
+  }
+});
+
+
+
+//@route    GET  api/blogs/:id
+//@desc     Get a single blog by its id
+//@accesss  Public
+router.get('/:id', async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+
+    if(!blog){
+      return res.status(400).json({msg: 'Blog not found'});
+    }
+
+    res.json(blog)
+  } catch (err) {
+    console.error(err.message);
+    if(err.kind === 'ObjectId'){
+      return res.status(400).json({msg: 'Blog not found'});
+    }
+    res.status(500).send('Server Error');
+    
+  }
+});
+
+
+//@route    DELETE  api/blogs/:id
+//@desc     Delete a blog
+//@accesss  Private
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+
+    if(!blog){
+      return res.status(400).json({msg: 'Blog not found'});
+    }
+
+    if(blog.user.toString() !== req.user.id){
+      return res.status(401).json({ msg: 'Unauthorized user'});
+    }
+
+    await blog.remove();
+
+    res.json('Blog removed')
+  } catch (err) {
+    console.error(err.message);
+    if(err.kind === 'ObjectId'){
+      return res.status(400).json({msg: 'Blog not found'});
+    }
+    res.status(500).send('Server Error');
+    
+  }
+});
+
+
+
+
 module.exports = router;
