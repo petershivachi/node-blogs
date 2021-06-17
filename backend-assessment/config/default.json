@@ -1,3 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://peter123:peter123@nodeblogs.zilit.mongodb.net/NodeBlogs?retryWrites=true&w=majority"
+  "mongoURI": "mongodb+srv://peter123:peter123@nodeblogs.zilit.mongodb.net/NodeBlogs?retryWrites=true&w=majority",
+  "jwtSecret": "fgotmkisfoerlmbsgnm"
 }
