@@ -47,8 +47,8 @@ router.post(
 
 //@route    GET api/blogs
 //desc      Endpoint to get all blog posts
-//access    Private
-router.get('/', auth, async (req, res) => {
+//access    Public
+router.get('/', async (req, res) => {
   try {
     const blogs = await Blog.find().sort({date: -1});
 
@@ -64,8 +64,8 @@ router.get('/', auth, async (req, res) => {
 
 //@route    GET  api/blogs/:id
 //@desc     Get a single blog by its id
-//@accesss  Private
-router.get('/:id', auth, async (req, res) => {
+//@accesss  Public
+router.get('/:id', async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);
 
